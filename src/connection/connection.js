@@ -1,33 +1,15 @@
 const mongoose = require('mongoose')
 
-const connectToDB = async () => {
+module.exports.connect = () => {
     const URI = process.env.MONGODB_URI;
-    try {
-        await mongoose.connect(URI)
-    } catch (err) {
-        console.error(err)
-    }
+    mongoose.connect(URI)
+    var db = mongoose.connection;
 
-}
+    db.on('error', function (err) {
+        console.log(err);
+    });
 
-const insertToDB = async (payload, model) => {
-    connectToDB();
-    result = await model.create(payload);
-    return result;
-
-}
-
-const findAll = async (model) => {
-    connectToDB();
-
-    result = await model.find({});
-    return result;
-
-}
-
-// export default connectToDB ;
-module.exports = {
-    connectToDB,
-    insertToDB,
-    findAll
+    db.once('open', function () {
+        console.log('MongoDB connected!')
+    });
 };

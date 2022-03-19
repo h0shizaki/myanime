@@ -21,6 +21,16 @@ const seriesShcema = new mongoose.Schema({
         required: true
     }
 
+}, {
+    collection: 'series'
 })
 
-module.exports = mongoose.model('Series', seriesShcema) ; 
+var Series = module.exports = mongoose.model('Series', seriesShcema);
+
+module.exports.getSeries = (callback) => {
+    Series.find(callback);
+}
+
+module.exports.addSeries = (data, callback) => {
+    Series.create(data, callback);
+}

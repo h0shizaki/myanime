@@ -1,6 +1,10 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
-require('dotenv').config()
+
+//connect to mongo db
+require('./src/connection/connection').connect() ;
+
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
