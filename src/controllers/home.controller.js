@@ -2,7 +2,7 @@ class Home {
     
     async Index(req, res) {
 
-        res.render('home.ejs', {
+        res.render('index.ejs', {
             title: "index"
         })
     }
