@@ -5,6 +5,10 @@ const seriesShcema = new mongoose.Schema({
         type: String,
         required: true
     },
+    description: {
+        type:String,
+        required: false
+    },
     episodes: {
         type: Number,
         required: true
@@ -19,6 +23,14 @@ const seriesShcema = new mongoose.Schema({
     studio: {
         type: String,
         required: true
+    },
+    character : {
+        type: [mongoose.Types.ObjectId],
+        required: false 
+    },
+    thumbnail: {
+        type : String ,
+        required: false
     }
 
 }, {

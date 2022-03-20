@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
     }
 });
 
-const fileLimit = 0.5 * 1000000 ; // 0.5 mb
+const fileLimit = 0.5 * 1000000 ; // 500kB
 
 module.exports = multer({
     storage: storage,
