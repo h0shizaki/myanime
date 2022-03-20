@@ -8,6 +8,7 @@ class API {
             if (err) {
                 // console.error(err)
                 res.json({ "status": "error", "message": err.message }).status(500)
+                return;
             } else {
                 // console.log(series);
                 res.status(200).json({ "status": "OK", series })
@@ -22,6 +23,7 @@ class API {
             upload(req, res, (err) => {
                 if (err) {
                     res.status(400).send({ "status": "fail", "message": err.message });
+                    return;
                 }
                 else {
 
@@ -43,6 +45,7 @@ class API {
                     Series.addSeries(payload, (err, response) => {
                         if (err) {
                             res.json({ "status": "error", "message": err.message }).status(500)
+                            return;
                         } else {
                             res.json({ "status": "OK", response })
                         }
@@ -54,6 +57,7 @@ class API {
             })
         } catch (err) {
             res.json({ "status": "error", "message": err.message }).status(500)
+            return;
         }
 
     }

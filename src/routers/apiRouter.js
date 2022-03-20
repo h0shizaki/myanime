@@ -4,7 +4,7 @@ const router = express.Router();
 
 const apiController = require('../controllers/api.controller')
 
-router.get('/series', alertMiddleware, apiController.GetSeries);
+router.get('/series', checkAuth, apiController.GetSeries);
 router.post('/series', checkAuth, apiController.PostSeries);
 
 
