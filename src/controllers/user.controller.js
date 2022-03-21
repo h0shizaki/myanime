@@ -21,10 +21,10 @@ class UserController {
 
         Users.addUser(payload, (err, response) => {
             if (err) {
-                res.json({ "status": "error", "message": err.message }).status(500)
-                return;
+                return res.json({ "status": "error", "message": err.message }).status(500)
+                
             } else {
-                res.json({ "status": "OK", response })
+                return res.json({ "status": "OK", response })
             }
 
         })
@@ -39,12 +39,12 @@ class UserController {
 
         Users.getUser(filter, async (err, response) => {
             if (err) {
-                res.json({ "status": "error", "message": err.message }).status(500)
-                return;
+                return res.json({ "status": "error", "message": err.message }).status(500)
+                
             }
             if (!response) {
-                res.json({ "status": "fail", "message": "incorrect username or password" })
-                return;
+                return res.json({ "status": "fail", "message": "incorrect username or password" })
+                
             }
 
             const dbPassword = response.password
@@ -66,10 +66,10 @@ class UserController {
                     'jwt': token,
                     ...response._doc
                 }
-                res.json({ "status": "OK", data })
+                return res.json({ "status": "OK", data })
 
             } else {
-                res.json({ "status": "fail", "message": "incorrect username or password" })
+                return res.json({ "status": "fail", "message": "incorrect username or password" })
             }
 
         })

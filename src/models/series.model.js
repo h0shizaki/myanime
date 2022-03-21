@@ -6,7 +6,7 @@ const seriesShcema = new mongoose.Schema({
         required: true
     },
     description: {
-        type:String,
+        type: String,
         required: false
     },
     episodes: {
@@ -24,12 +24,12 @@ const seriesShcema = new mongoose.Schema({
         type: String,
         required: true
     },
-    character : {
+    character: {
         type: [mongoose.Types.ObjectId],
-        required: false 
+        required: false
     },
     thumbnail: {
-        type : String ,
+        type: String,
         required: false
     }
 
@@ -39,10 +39,18 @@ const seriesShcema = new mongoose.Schema({
 
 var Series = module.exports = mongoose.model('Series', seriesShcema);
 
-module.exports.getSeries = (callback) => {
-    Series.find(callback);
+module.exports.getSeries = (cb) => {
+    Series.find(cb);
 }
 
-module.exports.addSeries = (data, callback) => {
-    Series.create(data, callback);
+module.exports.getOneSeries = (filter, cb) => {
+    Series.findOne(filter, cb);
+}
+
+module.exports.addSeries = (data, cb) => {
+    Series.create(data, cb);
+}
+
+module.exports.upadteSeries = (id, data, cb) => {
+    Series.findByIdAndUpdate(id, { $set: data } , cb)
 }
