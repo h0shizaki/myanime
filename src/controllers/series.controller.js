@@ -1,5 +1,5 @@
 const Series = require('../models/series.model');
-const upload = require('../utilities/upload').single('file');
+const upload = require('../utilities/uploadThumbnails').single('file');
 const fs = require('fs');
 const path = require('path');
 class API {
@@ -78,7 +78,6 @@ class API {
 
                     })
 
-                    // res.status(200).json({ "message": "OK", "data": req.file })
                 }
             })
         } catch (err) {
@@ -117,12 +116,16 @@ class API {
                                 return res.json({ "status": "error", "message": err.message }).status(500)
 
                             } else {
+
+                                if(!response.thumbnail){
+                                    return res.status(200).json({ "status": "OK", response }); 
+                                }
                                 //update success -> remove old image 
-                                const oldImgPath = path.join(__basedir, '/src/public/assets/uploads', response.thumbnail)
+                                const oldImgPath = path.join(__basedir, '/src/public/uploads/thumbnails', response.thumbnail)
                                 fs.unlink(oldImgPath, (err) => {
                                     if (err) return res.json({ "status": "error", "message": err.message }).status(500);
                                 })
-                                return res.json({ "status": "OK", })
+                                return res.json({ "status": "OK", "message": "Updated" })
                             }
 
                         })
@@ -142,21 +145,43 @@ class API {
                                 return res.json({ "status": "error", "message": err.message }).status(500)
 
                             } else {
-                                return res.json({ "status": "OK", })
+                                return res.json({ "status": "OK", "message": "Updated" })
                             }
 
                         })
-
-
                     }
-
-
 
                 }
             })
         } catch (err) {
             return res.json({ "status": "error", "message": err.message }).status(500)
         }
+    }
+
+    async DeleteSeries(req, res) {
+        try {
+            const id = req.params.id;
+            Series.deleteSeries(id, async(err, response) => {
+                if (err) {
+                    return res.json({ "status": "error", "message": err.message }).status(500)
+                }
+
+                if(!response.thumbnail){
+                    return res.status(200).json({ "status": "OK", response }); 
+                }
+
+                const oldImgPath = path.join(__basedir, '/src/public/uploads/thumbnails', response.thumbnail)
+                fs.unlink(oldImgPath, (err) => {
+                    if (err) return res.json({ "status": "error", "message": err.message }).status(500);
+                })
+                return res.status(200).json({ "status": "OK", response });
+                
+            })
+
+        } catch (err) {
+            return res.json({ "status": "error", "message": err.message }).status(500)
+        }
+
     }
 }
 

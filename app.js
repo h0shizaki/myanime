@@ -16,15 +16,17 @@ app.use(express.json());
 app.use(enableCORS);
 
 //import controller 
-const apiRouter = require('./src/routers/apiRouter');
+const apiSeriesRouter = require('./src/routers/seriesRouter');
+const apiCharactersRouter = require('./src/routers/charactersRouter');
 const userRouter = require('./src/routers/userRouter');
 
 
-app.use('/api', apiRouter)
-app.use('/user' , userRouter)
+app.use('/api/series', apiSeriesRouter)
+app.use('/api/characters', apiCharactersRouter)
+app.use('/user', userRouter)
 
 //static 
-app.use('/static', express.static(path.join('src', 'public')))
+app.use('/static', express.static(path.join('src', 'public', 'uploads')))
 
 app.use((req, res, next) => {
     res.status(404);

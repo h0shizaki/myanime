@@ -1,8 +1,7 @@
-const fs = require('fs');
 const path = require('path');
 
 var multer = require('multer');
-const destPath = path.join(__basedir, '/src/public/assets/uploads')
+const destPath = path.join(__basedir, '/src/public/uploads/characters')
 
 
 const imageFilter = (req, file, cb) => {

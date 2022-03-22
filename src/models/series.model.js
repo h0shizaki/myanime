@@ -24,7 +24,7 @@ const seriesShcema = new mongoose.Schema({
         type: String,
         required: true
     },
-    character: {
+    characters: {
         type: [mongoose.Types.ObjectId],
         required: false
     },
@@ -52,5 +52,17 @@ module.exports.addSeries = (data, cb) => {
 }
 
 module.exports.upadteSeries = (id, data, cb) => {
-    Series.findByIdAndUpdate(id, { $set: data } , cb)
+    Series.findByIdAndUpdate(id, { $set: data }, cb)
+}
+
+module.exports.deleteSeries = (id, cb) => {
+    Series.findByIdAndRemove(id, cb);
+}
+
+module.exports.updateCharacter = (id, characterId, cb) => {
+    Series.findByIdAndUpdate(id, {
+        $push: {
+            characters: new mongoose.Types.ObjectId(characterId)
+        }
+    }, cb)
 }
