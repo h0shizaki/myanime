@@ -66,3 +66,11 @@ module.exports.updateCharacter = (id, characterId, cb) => {
         }
     }, cb)
 }
+
+module.exports.deleteCharacter = (id, characterId, cb) => {
+    Series.findByIdAndUpdate(id, {
+        $pull: {
+            characters: new mongoose.Types.ObjectId(characterId)
+        }
+    }, cb)
+}

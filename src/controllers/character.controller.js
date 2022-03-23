@@ -35,7 +35,7 @@ class CharacterApi {
 
                         } else {
                             //add character to series 
-                            console.log(response._id);
+                            // console.log(response._id);
 
                             Series.updateCharacter(seriesId, response._id, (err2) => {
                                 if (err2) {
@@ -50,6 +50,47 @@ class CharacterApi {
                     })
 
                 }
+
+            })
+
+        } catch (err) {
+            return res.json({ "status": "error", "message": err.message }).status(500)
+        }
+    }
+
+    DeleteCharacterById(req, res) {
+        try {
+            const { seriesId, characterId } = req.body;
+
+            Characters.deleteCharacter(characterId, (err, response) => {
+                if (err) {
+                    return res.json({ "status": "error", "message": err.message }).status(500)
+                }
+
+                Series.deleteCharacter(seriesId, characterId, (err2) => {
+
+                    if (err2) {
+                        return res.json({ "status": "error", "message": err2.message }).status(500)
+                    }
+                })
+
+                try {
+                    if (!response.image) {
+                        return res.status(200).json({ "status": "OK", response });
+                    }
+
+                    const oldImgPath = path.join(__basedir, '/src/public/uploads/characters', response.image)
+                    fs.unlink(oldImgPath, (err) => {
+                        if (err) return res.json({ "status": "error", "message": err.message }).status(500);
+                    })
+                } catch (err) {
+                    return res.json({ "status": "error", "message": err.message }).status(500)
+                }
+
+
+                //Delete image file
+                return res.status(200).json({ "status": "OK", response });
+
 
             })
 
@@ -82,9 +123,6 @@ class CharacterApi {
 
     }
 
-    DeleteCharacter(req, res) {
-        
-    }
 
 }
 

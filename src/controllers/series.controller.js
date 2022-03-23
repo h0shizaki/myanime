@@ -117,14 +117,20 @@ class API {
 
                             } else {
 
-                                if(!response.thumbnail){
-                                    return res.status(200).json({ "status": "OK", response }); 
+                                try {
+                                    console.log(response)
+                                    if (!response.thumbnail) {
+                                        return res.status(200).json({ "status": "OK", "message": "Updated" });
+                                    }
+                                    //update success -> remove old image 
+                                    const oldImgPath = path.join(__basedir, '/src/public/uploads/thumbnails', response.thumbnail)
+                                    fs.unlink(oldImgPath, (err) => {
+                                        if (err) return res.json({ "status": "error", "message": err.message }).status(500);
+                                    })
+                                } catch (err) {
+                                    return res.json({ "status": "error", "message": err.message }).status(500)
                                 }
-                                //update success -> remove old image 
-                                const oldImgPath = path.join(__basedir, '/src/public/uploads/thumbnails', response.thumbnail)
-                                fs.unlink(oldImgPath, (err) => {
-                                    if (err) return res.json({ "status": "error", "message": err.message }).status(500);
-                                })
+
                                 return res.json({ "status": "OK", "message": "Updated" })
                             }
 
@@ -137,7 +143,8 @@ class API {
                             episodes,
                             premiered,
                             source,
-                            studio
+                            studio,
+                            thumbnail: ""
                         }
 
                         Series.upadteSeries(id, payload, (err, response) => {
@@ -145,7 +152,21 @@ class API {
                                 return res.json({ "status": "error", "message": err.message }).status(500)
 
                             } else {
-                                return res.json({ "status": "OK", "message": "Updated" })
+                                try {
+                                    console.log(response)
+                                    if (!response.thumbnail) {
+                                        return res.status(200).json({ "status": "OK", "message": "Updated" });
+                                    }
+                                    //update success -> remove old image 
+                                    const oldImgPath = path.join(__basedir, '/src/public/uploads/thumbnails', response.thumbnail)
+                                    fs.unlink(oldImgPath, (err) => {
+                                        if (err) return res.json({ "status": "error", "message": err.message }).status(500);
+                                    })
+                                } catch (err) {
+                                    return res.json({ "status": "error", "message": err.message }).status(500)
+                                }
+                                
+                                return res.status(200).json({ "status": "OK", "message": "Updated" });
                             }
 
                         })
@@ -161,21 +182,25 @@ class API {
     async DeleteSeries(req, res) {
         try {
             const id = req.params.id;
-            Series.deleteSeries(id, async(err, response) => {
+            Series.deleteSeries(id, async (err, response) => {
                 if (err) {
                     return res.json({ "status": "error", "message": err.message }).status(500)
                 }
+                try {
 
-                if(!response.thumbnail){
-                    return res.status(200).json({ "status": "OK", response }); 
+                    if (!response.thumbnail) {
+                        return res.status(200).json({ "status": "OK", response });
+                    }
+
+                    const oldImgPath = path.join(__basedir, '/src/public/uploads/thumbnails', response.thumbnail)
+                    fs.unlink(oldImgPath, (err) => {
+                        if (err) return res.json({ "status": "error", "message": err.message }).status(500);
+                    })
+                } catch (err) {
+                    return res.json({ "status": "error", "message": err.message }).status(500)
                 }
-
-                const oldImgPath = path.join(__basedir, '/src/public/uploads/thumbnails', response.thumbnail)
-                fs.unlink(oldImgPath, (err) => {
-                    if (err) return res.json({ "status": "error", "message": err.message }).status(500);
-                })
                 return res.status(200).json({ "status": "OK", response });
-                
+
             })
 
         } catch (err) {
