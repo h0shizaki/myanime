@@ -1,15 +1,73 @@
 require('dotenv').config()
+const path = require('path')
 const express = require('express');
 const app = express();
+const session = require('express-session');
+const connectRedis = require('connect-redis')
 
+//Import connection to database
 require('./src/connections').connectToMongo();
+const redisClient = require('./src/connections').connectToRedis();
 
+//JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.status(200).send("Hello")
-})
+
+//Session config
+const RedisStore = connectRedis(session);
+app.use(session({
+    store: new RedisStore({ client: redisClient }),
+    secret: "Peanut",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 0.5 // .5 minutes 
+    }
+}))
+
+//Set view path
+// app.set('views', path.join(__dirname,'src','views'));
+// app.set('view engine', 'ejs');
+
+//Import and use router
+const homeRouter = require('./src/routes/homeRoute')
+const userRouter = require('./src/routes/userRoute')
+
+app.use("/" , homeRouter)
+app.use("/user" , userRouter)
+
+
+
+// app.get('/', (req, res) => {
+//     req.session.isAuth = true
+//     console.log(req.session)
+//     res.status(200).json({ "message": "hello session", "session": req.session.id })
+// })
+
+// app.get('/session',  (req, res) => {
+//     // console.log(req.session.isAuth)
+//     if (!req.session.isAuth) {
+//         res.status(401).send("Please login")
+//         return ;
+//     }
+
+
+//      res.status(200).json({ "message": "hello boi " })
+
+// })
+
+// app.get('/logout', (req, res) => {
+//     if (!req.session.isAuth) {
+//         res.status(401).send("Please login")
+//         return ;
+//     }
+//     req.session.destroy(err => {
+//         console.error(err);
+//     })
+//      res.status(200).send("Logout")
+
+// })
 
 
 let port = process.env.PORT || 3030;
