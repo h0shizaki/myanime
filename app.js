@@ -27,8 +27,8 @@ app.use(session({
 }))
 
 //Set view path
-// app.set('views', path.join(__dirname,'src','views'));
-// app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname,'src','views'));
+app.set('view engine', 'ejs');
 
 //Import and use router
 const homeRouter = require('./src/routes/homeRoute')
@@ -36,39 +36,6 @@ const userRouter = require('./src/routes/userRoute')
 
 app.use("/" , homeRouter)
 app.use("/user" , userRouter)
-
-
-
-// app.get('/', (req, res) => {
-//     req.session.isAuth = true
-//     console.log(req.session)
-//     res.status(200).json({ "message": "hello session", "session": req.session.id })
-// })
-
-// app.get('/session',  (req, res) => {
-//     // console.log(req.session.isAuth)
-//     if (!req.session.isAuth) {
-//         res.status(401).send("Please login")
-//         return ;
-//     }
-
-
-//      res.status(200).json({ "message": "hello boi " })
-
-// })
-
-// app.get('/logout', (req, res) => {
-//     if (!req.session.isAuth) {
-//         res.status(401).send("Please login")
-//         return ;
-//     }
-//     req.session.destroy(err => {
-//         console.error(err);
-//     })
-//      res.status(200).send("Logout")
-
-// })
-
 
 let port = process.env.PORT || 3030;
 app.listen(port, () => {
