@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <%- include('./partials/head.ejs' , {title : "login" }) %>
+</head>
+
+<body>
+
+    <header>
+        <%- include('./partials/header.ejs') %>
+    </header>
+    <main>
+        <div class="jumbotron">
+
+            <div class="text-center">
+                <h2>Login</h2>
+                <form method="post" action="/user/login" class="mt-4">
+
+                    <div class="form-outline mb-4">
+                        <label for="username">
+                            Username
+                            <input type="text" name="username" class="form-control">
+                        </label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label for="password">
+                            Password
+                            <input type="password" name="password" class="form-control">
+                        </label>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <input type="submit" class="btn btn-primary btn-block mb-4" style="width: 10%;  margin-left: 45%;" value="Sign in">
+                    </div>
+
+                    <div class="text-center">
+                        <p>Not a member? <a href="/user/register">Register</a></p>
+                    </div>
+            </div>
+            </form>
+
+        </div>
+    </main>
+
+
+
+    <%- include('./partials/footer.ejs') %>
+</body>
+
+
+</html>

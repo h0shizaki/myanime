@@ -37,6 +37,7 @@ const userRouter = require('./src/routes/userRoute')
 app.use("/" , homeRouter)
 app.use("/user" , userRouter)
 
+
 let port = process.env.PORT || 3030;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`)

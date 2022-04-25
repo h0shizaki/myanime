@@ -1,12 +1,17 @@
 class Home {
 
     Index(req, res) {
-        res.send("Hello")
+        res.render('index.ejs')
     }
 
     Home(req, res) {
         //use middleware 
-        res.send("HI")
+        console.log(req.session.isAuth)
+        if(req.session.isAuth != true){
+            return res.redirect('/user/login')
+        }
+
+        return res.send("HI")
     }
 
 
