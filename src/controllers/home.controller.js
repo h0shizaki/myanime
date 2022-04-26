@@ -6,7 +6,6 @@ class Home {
 
     Home(req, res) {
         //use middleware 
-        console.log(req.session.isAuth)
         if(req.session.isAuth != true){
             return res.redirect('/user/login')
         }
