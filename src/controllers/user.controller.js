@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 class User {
 
     LoginPage(req,res) {
-        res.render('login')
+        res.render('login' , {message:''})
     }
 
     async Login(req,res) {
@@ -20,7 +20,7 @@ class User {
                 
             }
             if (!response) {
-                return res.json({ "status": "fail", "message": "incorrect username or password" })
+                return res.render('login', { 'message': "incorrect username or password"} )
                 
             }
             const dbPassword = response.password
@@ -30,7 +30,8 @@ class User {
                 req.session.isAuth = true
                 return res.redirect('/home')
             } else {
-                return res.json({ "status": "fail", "message": "incorrect username or password" })
+                return res.render('login', { 'message': "incorrect username or password"} )
+                // return res.json({ "status": "fail", "message": "incorrect username or password" })
             }
         })
     }

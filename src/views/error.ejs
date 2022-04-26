@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <%- include('./partials/head.ejs' , {title : "" }) %>
+    </head>
+
+    <body>
+
+        <header>
+            <%- include('./partials/header.ejs') %>
+        </header>
+        <main>
+            <div class="jumbotron">
+                
+                <%if(error) {%>
+                    <%= error %>
+                <%}%>
+
+            </div>
+        </main>
+
+
+
+        <%- include('./partials/footer.ejs') %>
+    </body>
+
+
+</html>

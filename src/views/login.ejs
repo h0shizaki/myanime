@@ -10,9 +10,18 @@
         <%- include('./partials/header.ejs') %>
     </header>
     <main>
+
         <div class="jumbotron">
 
             <div class="text-center">
+
+                <% if(message){  %>
+                <div class="alert alert-danger" role="alert">
+                    <h5><%=message%></h5>
+                </div> 
+                <% }%>
+                
+
                 <h2>Login</h2>
                 <form method="post" action="/user/login" class="mt-4">
 
@@ -30,7 +39,8 @@
                         </label>
                     </div>
                     <div class="form-outline mb-4">
-                        <input type="submit" class="btn btn-primary btn-block mb-4" style="width: 10%;  margin-left: 45%;" value="Sign in">
+                        <input type="submit" class="btn btn-primary btn-block mb-4"
+                            style="width: 10%;  margin-left: 45%;" value="Sign in">
                     </div>
 
                     <div class="text-center">

@@ -11,7 +11,7 @@ class Home {
             return res.redirect('/user/login')
         }
 
-        return res.send("HI")
+        return res.render('home')
     }
 
 
